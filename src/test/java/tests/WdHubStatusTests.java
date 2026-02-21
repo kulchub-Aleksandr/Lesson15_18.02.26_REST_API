@@ -33,6 +33,52 @@ public class WdHubStatusTests extends TestBase{
     }
 
     @Test
+    public void invalidUserPasswordStatusTest() {
+        given()
+                .log().all()
+                .auth().basic("user1", "qwerty")
+                .when()
+                .get("/wd/hub/status")
+                .then()
+                .log().all()
+                .statusCode(401);
+    }
+    @Test
+    public void emptyUserPasswordStatusTest() {
+        given()
+                .log().all()
+                .auth().basic("user1", "")
+                .when()
+                .get("/wd/hub/status")
+                .then()
+                .log().all()
+                .statusCode(401);
+    }
+
+    @Test
+    public void invalidUserLoginStatusTest() {
+        given()
+                .log().all()
+                .auth().basic("admin", "1234")
+                .when()
+                .get("/wd/hub/status")
+                .then()
+                .log().all()
+                .statusCode(401);
+    }
+    @Test
+    public void emptyUserLoginStatusTest() {
+        given()
+                .log().all()
+                .auth().basic("", "1234")
+                .when()
+                .get("/wd/hub/status")
+                .then()
+                .log().all()
+                .statusCode(401);
+    }
+
+    @Test
     public void requiredKeyValueTest() {
         given()
                 .log().all()
