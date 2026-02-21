@@ -10,19 +10,19 @@ import static org.hamcrest.Matchers.*;
 public class WdHubStatusTests extends TestBase{
 
     @Test
-    public void statusTest() {
+    public void authorizedUserStatusTest() {
         given()
                 .log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("https://selenoid.autotests.cloud/wd/hub/status")
+                .get("/wd/hub/status")
                 .then()
                 .log().all()
                 .statusCode(200);
     }
 
     @Test
-    public void unauthorizedStatusTest() {
+    public void unauthorizedUserStatusTest() {
         given()
                 .log().all()
                 .when()
@@ -33,45 +33,43 @@ public class WdHubStatusTests extends TestBase{
     }
 
     @Test
-    public void requiredKeysTest() {
+    public void requiredKeyValueTest() {
         given()
                 .log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("https://selenoid.autotests.cloud/wd/hub/status")
+                .get("/wd/hub/status")
                 .then()
                 .log().all()
                 .statusCode(200)
                 .body("", hasKey("value"));
     }
+
     @Test
     public void requiredKeyReadyTest() {
         given()
                 .log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("https://selenoid.autotests.cloud/wd/hub/status")
+                .get("/wd/hub/status")
                 .then()
                 .log().all()
                 .statusCode(200)
                 .body("value.ready", is(true));
     }
 
-
     @Test
-    public void requiredValueTest() {
+    public void requiredKeyMessageTest() {
         given()
                 .log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("https://selenoid.autotests.cloud/wd/hub/status")
+                .get("/wd/hub/status")
                 .then()
                 .log().all()
                 .statusCode(200)
                 .body("value.message", equalTo("Selenoid 1.11.3 built at 2024-05-25_12:34:40PM"));
     }
-
-
 
     @Test
     public void statusSchemaTest() {
@@ -79,7 +77,7 @@ public class WdHubStatusTests extends TestBase{
                 .log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("https://selenoid.autotests.cloud/wd/hub/status")
+                .get("/wd/hub/status")
                 .then()
                 .log().all()
                 .statusCode(200)
