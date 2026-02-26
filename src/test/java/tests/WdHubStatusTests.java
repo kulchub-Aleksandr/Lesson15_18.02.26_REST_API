@@ -1,5 +1,6 @@
 package tests;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -15,7 +16,7 @@ public class WdHubStatusTests extends TestBase{
                 .log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("/status")
                 .then()
                 .log().all()
                 .statusCode(200);
@@ -26,10 +27,12 @@ public class WdHubStatusTests extends TestBase{
         given()
                 .log().all()
                 .when()
-                .get("/wd/hub/status")
+                .get("/status")
                 .then()
                 .log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body(containsString("Authorization Required"))
+                .header("WWW-Authenticate", Matchers.containsString("Basic realm="));
     }
 
     @Test
@@ -38,10 +41,12 @@ public class WdHubStatusTests extends TestBase{
                 .log().all()
                 .auth().basic("user1", "qwerty")
                 .when()
-                .get("/wd/hub/status")
+                .get("/status")
                 .then()
                 .log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body(containsString("Authorization Required"))
+                .header("WWW-Authenticate", Matchers.containsString("Basic realm="));
     }
     @Test
     public void emptyUserPasswordStatusTest() {
@@ -49,10 +54,12 @@ public class WdHubStatusTests extends TestBase{
                 .log().all()
                 .auth().basic("user1", "")
                 .when()
-                .get("/wd/hub/status")
+                .get("/status")
                 .then()
                 .log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body(containsString("Authorization Required"))
+                .header("WWW-Authenticate", Matchers.containsString("Basic realm="));
     }
 
     @Test
@@ -61,10 +68,12 @@ public class WdHubStatusTests extends TestBase{
                 .log().all()
                 .auth().basic("admin", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("/status")
                 .then()
                 .log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body(containsString("Authorization Required"))
+                .header("WWW-Authenticate", Matchers.containsString("Basic realm="));
     }
     @Test
     public void emptyUserLoginStatusTest() {
@@ -72,10 +81,12 @@ public class WdHubStatusTests extends TestBase{
                 .log().all()
                 .auth().basic("", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("/status")
                 .then()
                 .log().all()
-                .statusCode(401);
+                .statusCode(401)
+                .body(containsString("Authorization Required"))
+                .header("WWW-Authenticate", Matchers.containsString("Basic realm="));
     }
 
     @Test
@@ -84,7 +95,7 @@ public class WdHubStatusTests extends TestBase{
                 .log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("/status")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -97,7 +108,7 @@ public class WdHubStatusTests extends TestBase{
                 .log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("/status")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -110,7 +121,7 @@ public class WdHubStatusTests extends TestBase{
                 .log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("/status")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -123,7 +134,7 @@ public class WdHubStatusTests extends TestBase{
                 .log().all()
                 .auth().basic("user1", "1234")
                 .when()
-                .get("/wd/hub/status")
+                .get("/status")
                 .then()
                 .log().all()
                 .statusCode(200)
